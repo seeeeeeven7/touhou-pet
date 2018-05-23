@@ -88,6 +88,9 @@
     <EmbeddedResource Include="Bubble.resx">
       <DependentUpon>Bubble.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Class\TransparentForm.resx">
+      <DependentUpon>TransparentForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
