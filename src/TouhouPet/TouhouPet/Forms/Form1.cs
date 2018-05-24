@@ -7,23 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Drawing.Imaging;
-using TouhouPet.Class;
 
-namespace TouhouPet
+namespace TouhouPet.Forms
 {
-    public partial class Bubble : TransparentForm
+    public partial class Form1 : Form
     {
-
-        public Bubble(Bitmap bitmap) : base(bitmap)
+        public Form1()
         {
             InitializeComponent();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            this.Close();
+            this.TransparencyKey = BackColor;
         }
     }
 }

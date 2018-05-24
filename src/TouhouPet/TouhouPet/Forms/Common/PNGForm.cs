@@ -4,12 +4,21 @@ using System.Windows.Forms;
 
 namespace TouhouPet.Class
 {
-    public class TransparentForm : Form
+    public class PNGForm : Form
     {
+        // 展示的背景图片
+        Bitmap DisplayBitmap = null;
+        // 是否可以拖动整个窗体
+        protected bool Draggable = false;
 
-        Bitmap bitmap;
+        protected int recordX, recordY;
+        public void RecordPosition()
+        {
+            recordX = this.Location.X;
+            recordY = this.Location.Y;
+        }
 
-        public TransparentForm(Bitmap bitmap)
+        public PNGForm(Bitmap displayBitmap)
         {
             InitializeComponent();
 
@@ -22,7 +31,53 @@ namespace TouhouPet.Class
             // 不显示标题栏
             this.FormBorderStyle = FormBorderStyle.None;
 
-            this.bitmap = bitmap;
+            // 背景bitmap
+            this.DisplayBitmap = displayBitmap;
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            this.Load += new System.EventHandler(this.TransparentForm_Load);
+            this.MouseDown += PNGForm_MouseDown;
+            this.MouseMove += PNGForm_MouseMove;
+            this.MouseUp += PNGForm_MouseUp;
+            this.ResumeLayout(false);
+        }
+
+        // 记录当前窗体是否正在拖拽
+        bool isDragging = false;
+        // 记录上次事件发生的位置
+        Point lastLocation;
+
+        private void PNGForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && this.Draggable)
+            {
+                isDragging = true;
+                lastLocation = e.Location;
+            }
+        }
+
+        private void PNGForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                this.Location = new Point(
+                    this.Location.X - lastLocation.X + e.X,
+                    this.Location.Y - lastLocation.Y + e.Y
+                );
+                this.Update();
+            }
+        }
+
+        private void PNGForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isDragging = false;
+                RecordPosition();
+            }
         }
 
         bool haveHandle = false;
@@ -42,6 +97,7 @@ namespace TouhouPet.Class
             {
                 CreateParams cParms = base.CreateParams;
                 cParms.ExStyle |= 0x00080000; // WS_EX_LAYERED
+                cParms.ExStyle |= 0x00080000;
                 return cParms;
             }
         }
@@ -76,7 +132,6 @@ namespace TouhouPet.Class
                 blendFunc.BlendFlags = 0;
 
                 Win32.UpdateLayeredWindow(Handle, screenDC, ref topLoc, ref bitMapSize, memDc, ref srcLoc, 0, ref blendFunc, Win32.ULW_ALPHA);
-                //Win32.UpdateLayeredWindow(Handle, screenDC, ref topLoc, ref bitMapSize, memDc, ref srcLoc, 0, ref blendFunc, Win32.ULW_ALPHA);
             }
             finally
             {
@@ -90,22 +145,10 @@ namespace TouhouPet.Class
             }
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // TransparentForm
-            // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "TransparentForm";
-            this.Load += new System.EventHandler(this.TransparentForm_Load);
-            this.ResumeLayout(false);
-
-        }
-
         private void TransparentForm_Load(object sender, EventArgs e)
         {
-            SetBits(this.bitmap);
+            RecordPosition();
+            SetBits(this.DisplayBitmap);
         }
     }
 }
