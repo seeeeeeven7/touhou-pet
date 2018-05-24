@@ -5,13 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TouhouRealityDream"
         mc:Ignorable="d"
-        Title="东方现世梦" Height="321.257" Width="360.83"
-        AllowsTransparency="True" WindowStyle="None">
+        Title="东方现世梦" Height="282.754" Width="304.279"
+        AllowsTransparency="True" WindowStyle="None" MouseUp="Window_MouseUp" Loaded="Window_Loaded">
     <Window.Background>
         <SolidColorBrush Opacity="0.0" Color="White"/>
     </Window.Background>
-    <Grid MouseDown="Grid_MouseDown" Margin="0,0,84,41">
-        <Image Name="HakureiReimu" Margin="144,108,-12,0" Source="pack://application:,,,/Resources/bllm.png" HorizontalAlignment="Left" Width="166" Height="160" VerticalAlignment="Top"/>
-        <Image Name="TalkBubble" Height="160" Width="166" Margin="10,10,0,0" Source="pack://application:,,,/Resources/bubble.png" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    <Grid MouseDown="Grid_MouseDown" HorizontalAlignment="Left" Width="297" Height="283" VerticalAlignment="Top">
+        <Image Name="HakureiReimu" 
+               Margin="144,108,-12,0" 
+               Source="pack://application:,,,/Resources/bllm.png" 
+               HorizontalAlignment="Left" 
+               Width="166" 
+               Height="160" 
+               VerticalAlignment="Top"
+        />
+        <Image Name="TalkBubble" 
+               Height="160" 
+               Width="166" 
+               Margin="10,10,0,0" 
+               Source="pack://application:,,,/Resources/bubble.png" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Visibility="Hidden" MouseLeftButtonDown="TalkBubble_MouseLeftButtonDown"
+        />
+        <TextBlock 
+            Name="TalkBubbleContent"
+            HorizontalAlignment="Left" 
+            Margin="36,40,0,0" 
+            VerticalAlignment="Top" 
+            RenderTransformOrigin="0.064,0.325" 
+            Width="109" 
+            TextWrapping="Wrap" 
+            Text="你好！我是灵梦，是一名巫女！"
+            Visibility="Hidden" MouseLeftButtonDown="TalkBubble_MouseLeftButtonDown"
+        />
+
     </Grid>
 </Window>
